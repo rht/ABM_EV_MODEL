@@ -19,6 +19,7 @@ class RandomActivationByBreed(RandomActivation):
     def __init__(self, model):
         super().__init__(model)
         self.agents_by_breed = defaultdict(list)
+        self.agents_list = []
 
     def add(self, agent):
         '''
@@ -28,7 +29,7 @@ class RandomActivationByBreed(RandomActivation):
             agent: An Agent to be added to the schedule.
         '''
 
-        self.agents.append(agent)
+        self.agents_list.append(agent)
         agent_class = type(agent)
         self.agents_by_breed[agent_class].append(agent)
 
@@ -37,8 +38,8 @@ class RandomActivationByBreed(RandomActivation):
         Remove all instances of a given agent from the schedule.
         '''
 
-        while agent in self.agents:
-            self.agents.remove(agent)
+        while agent in self.agents_list:
+            self.agents_list.remove(agent)
 
         agent_class = type(agent)
         while agent in self.agents_by_breed[agent_class]:

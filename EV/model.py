@@ -21,7 +21,7 @@ def mean_all_battery(model):
     Data collector function to ouput the mean of all battery
     """
 
-    agent_battery_levels = [agent.battery for agent in model.schedule.agents if type(agent) is EV_Agent]
+    agent_battery_levels = [agent.battery for agent in model.schedule.agents_list if type(agent) is EV_Agent]
     #x = sorted(agent_wealths)
     
     B = np.mean(agent_battery_levels)
@@ -31,7 +31,7 @@ def lowest_25_percent(model):
     """
     Data collector function to ouput the 25th percentil of all batteries
     """
-    agent_battery_levels = [agent.battery for agent in model.schedule.agents if type(agent) is EV_Agent]
+    agent_battery_levels = [agent.battery for agent in model.schedule.agents_list if type(agent) is EV_Agent]
     #x = sorted(agent_wealths)
     return  np.percentile(agent_battery_levels, 25)
 
@@ -39,12 +39,12 @@ def specific_battery(model):
     """
     Data collector function to ouput the battery of a single EV
     """
-    for agent in model.schedule.agents:
+    for agent in model.schedule.agents_list:
         if agent.unique_id == 10 and type(agent) is EV_Agent:
             return agent.battery
 
 def time_in_state(model):
-    agent_time_in_state = [agent.time_in_state for agent in model.schedule.agents if type(agent) is EV_Agent]
+    agent_time_in_state = [agent.time_in_state for agent in model.schedule.agents_list if type(agent) is EV_Agent]
     return np.mean(agent_time_in_state)
 
 def count_agents(model):  
@@ -52,21 +52,20 @@ def count_agents(model):
     return N
 
 def avg_usage(model):
-    CP_usage = [agent.avg_usage for agent in model.schedule.agents if type(agent) is Charge_pole]
+    CP_usage = [agent.avg_usage for agent in model.schedule.agents_list if type(agent) is Charge_pole]
     return np.mean(CP_usage)
 
 def high_usage(model):
-    CP_usage = [agent.avg_usage for agent in model.schedule.agents if type(agent) is Charge_pole]
-
+    CP_usage = [agent.avg_usage for agent in model.schedule.agents_list if type(agent) is Charge_pole]
     return np.percentile(np.array(CP_usage), 75)
 
 def low_usage(model):
-    CP_usage = [agent.avg_usage for agent in model.schedule.agents if type(agent) is Charge_pole]
+    CP_usage = [agent.avg_usage for agent in model.schedule.agents_list if type(agent) is Charge_pole]
     return np.percentile(np.array(CP_usage), 25)
 
 def percentageFailed(model):
-    failed = sum([agent.attempts_failed for agent in model.schedule.agents if type(agent) is EV_Agent])
-    succeeded = sum([agent.attempts_success for agent in model.schedule.agents if type(agent) is EV_Agent])
+    failed = sum([agent.attempts_failed for agent in model.schedule.agents_list if type(agent) is EV_Agent])
+    succeeded = sum([agent.attempts_success for agent in model.schedule.agents_list if type(agent) is EV_Agent])
     if failed > 0:
         percentage = failed / (failed + succeeded)
         return percentage
@@ -75,12 +74,12 @@ def percentageFailed(model):
     
 
 def totalAttempts(model):
-    failed = sum([agent.attempts_failed for agent in model.schedule.agents if type(agent) is EV_Agent])
-    succeeded = sum([agent.attempts_success for agent in model.schedule.agents if type(agent) is EV_Agent])
+    failed = sum([agent.attempts_failed for agent in model.schedule.agents_list if type(agent) is EV_Agent])
+    succeeded = sum([agent.attempts_success for agent in model.schedule.agents_list if type(agent) is EV_Agent])
     return failed+succeeded
 
 def averageLifespan(model):
-    age = np.mean([agent.age for agent in model.schedule.agents if type(agent) is EV_Agent])
+    age = np.mean([agent.age for agent in model.schedule.agents_list if type(agent) is EV_Agent])
     return age
 
   # gives back a list of n points in a circle of radius r
