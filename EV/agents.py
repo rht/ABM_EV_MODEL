@@ -412,7 +412,7 @@ class EV_Agent(Agent):
         Changes the position and drains battery
         """
         self.use_battery()
-        self.model.grid.move_agent(self,self.new_position)
+        self.model.grid.move_agent(self,tuple(self.new_position))
     
     
     def initMemory(self):
